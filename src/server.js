@@ -1,10 +1,10 @@
 const express = require("express");
 const dotenv = require("dotenv");
+dotenv.config();
 const path = require("path");
 const authRoutes = require("./routes/authRoutes");
 
-dotenv.config();
-
+console.log(`REDIRECT_URI: ${process.env.REDIRECT_URI}`);
 const app = express();
 
 // 개발 환경에서만 테스트 라우트 설정
