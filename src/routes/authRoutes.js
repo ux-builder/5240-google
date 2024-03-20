@@ -14,7 +14,7 @@ const secretKey = process.env.SECRET_KEY;
 // Keycloak configuration load function
 function loadKeycloakConfig(clientId) {
   try {
-    console.log(`Loading Keycloak config for client: ${clientId}`); // Log client ID
+//    console.log(`Loading Keycloak config for client: ${clientId}`); // Log client ID
 
     const configPath = path.join(__dirname, '..', 'config', `${clientId}-keycloak.json`);
     const config = JSON.parse(fs.readFileSync(configPath, "utf8"));
@@ -59,9 +59,9 @@ function aesDecrypt(encryptedText, key) {
 }
 
 router.get("/login/:clientId", (req, res) => {
-  console.log(`redirectUri: ${redirectUri}`);
+//  console.log(`redirectUri: ${redirectUri}`);
   const clientId = req.params.clientId;
-  console.log(`Login request received for client: ${clientId}`); // Log client ID
+//  console.log(`Login request received for client: ${clientId}`); // Log client ID
   const keycloak = loadKeycloakConfig(clientId);
 
   if (keycloak) {
@@ -71,7 +71,7 @@ router.get("/login/:clientId", (req, res) => {
     const responseType = 'code';
     const state = randomString();
 
-    console.log(`Keycloak config realm: ${keycloak.config.realmUrl}`);
+//    console.log(`Keycloak config realm: ${keycloak.config.realmUrl}`);
 
     // IdP로 Google 지정
     const idpHint = 'google'; // Google IdP의 이름
@@ -104,7 +104,7 @@ router.get("/login/:clientId", (req, res) => {
 router.get("/callback", async (req, res) => {
   const code = req.query.code;
   const clientId = req.query.client_id;
-  console.log(`Callback request received for client: ${clientId}, code: ${code}`); // Log callback details
+//  console.log(`Callback request received for client: ${clientId}, code: ${code}`); // Log callback details
 
   if (!code) {
     return res.status(400).send("Authorization code is missing");
@@ -119,7 +119,7 @@ router.get("/callback", async (req, res) => {
   }
 
   try {
-    console.log(`Requesting token from Keycloak for client: ${clientId}`); // Log token request
+//    console.log(`Requesting token from Keycloak for client: ${clientId}`); // Log token request
     const tokenRequestRedirectUri = `${redirectUri}/callback?client_id=${clientId}`;
     const params = new URLSearchParams();
     params.append('grant_type', 'authorization_code');
@@ -136,7 +136,7 @@ router.get("/callback", async (req, res) => {
       data: params
     });
 
-    console.log(`data : -----------------------------------`);
+ //   console.log(`data : -----------------------------------`);
  //   console.log(response.data);
 
     const { access_token, refresh_token, id_token } = response.data;
